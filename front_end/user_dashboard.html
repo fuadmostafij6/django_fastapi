@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django FastAPI Auth Demo</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+
+
+        <!-- User Dashboard (shown after login) -->
+        <div id="userDashboard">
+            <h2>Welcome, <span id="dashboardUsername"></span>!</h2>
+            <p>Email: <span id="dashboardEmail"></span></p>
+            <button id="logoutBtn">Logout</button>
+        </div>
+    </div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+
+     console.log('Full URL:', window.location.href);
+    console.log('Query string:', window.location.search);
+
+   const userData = JSON.parse(sessionStorage.getItem('userData'));
+
+            if (userData && userData.username && userData.email) {
+                // Display user data
+                document.getElementById('dashboardUsername').textContent = userData.username;
+                document.getElementById('dashboardEmail').textContent = userData.email;
+
+                // Show dashboard (remove hidden class if exists)
+                document.getElementById('userDashboard').classList.remove('hidden');
+            } else {
+                // Redirect to login if no user data found
+                window.location.href = '/uni_project/front_end/login.html';
+            }
+});
+document.getElementById('logoutBtn').addEventListener('click', function() {
+    this.textContent = 'Logging out...';
+    sessionStorage.removeItem('userData');
+    window.location.href = '/uni_project/front_end/login.html';
+});
+    </script>
+</body>
+</html>

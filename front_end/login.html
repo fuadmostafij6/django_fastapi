@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Django FastAPI Auth</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="auth-forms">
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form">
+                <h2>Login</h2>
+                <div class="form-group">
+                    <label for="loginEmail">Username</label>
+                    <input type="text" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit">Login</button>
+                <div id="loginMessage" class="message"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8001/api';
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const messageEl = document.getElementById('loginMessage');
+            messageEl.textContent = '';
+            messageEl.className = 'message';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/login/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: document.getElementById('loginEmail').value,
+                        password: document.getElementById('loginPassword').value
+                    }),
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage(messageEl, 'Login successful! Redirecting...', 'success');
+                                 sessionStorage.setItem('userData', JSON.stringify({
+        username: data.username,
+        email: data.email
+    }));
+                    setTimeout(() => {
+                        window.location.href = '/uni_project/front_end/user_dashboard.html';
+                    }, 1500);
+                } else {
+                    showMessage(messageEl, data.detail || 'Login failed. Please check your credentials.', 'error');
+                }
+            } catch (error) {
+                showMessage(messageEl, 'Network error. Please try again.', 'error');
+                console.error('Login error:', error);
+            }
+        });
+
+        function showMessage(element, message, type) {
+            element.textContent = message;
+            element.className = `message ${type}`;
+
+            setTimeout(() => {
+                element.textContent = '';
+                element.className = 'message';
+            }, 5000);
+        }
+
+    </script>
+</body>
+</html>

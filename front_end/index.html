@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django FastAPI Auth Demo</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="auth-forms">
+            <!-- Registration Form -->
+            <form id="registerForm" class="auth-form">
+                  <div class="form-header">
+                    <h2>Register</h2>
+                    <a href="http://127.0.0.1:8000/" class="admin-btn" target="_blank">Admin Dashboard</a>
+                </div>
+                <div class="form-group">
+                    <label for="regUsername">Username</label>
+                    <input type="text" id="regUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input type="email" id="regEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" required>
+                </div>
+                <button type="submit">Register</button>
+                <div id="registerMessage" class="message"></div>
+                  <div id="loginMessage" class="message"></div>
+            </form>
+
+        </div>
+
+
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
